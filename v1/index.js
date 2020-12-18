@@ -51,8 +51,8 @@ const resolvers = {
     pets: () => Pet.all(),
   },
   Pet: {
-    animal: (parent, _) => Animal.get(parent.animalId),
-    shelter: (parent, _) => Shelter.get(parent.shelterId),
+    animal: (parent) => Animal.get(parent.animalId),
+    shelter: (parent) => Shelter.get(parent.shelterId),
   },
 };
 
