@@ -10,6 +10,7 @@
     "db-seed": "node ./db/seed.js",
     "start-v1": "nodemon ./v1/index.js",
     "start-v2": "nodemon ./v2/index.js",
+    "start-v3": "nodemon ./v3/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Lee Costello",

@@ -37,8 +37,13 @@ const batchGetShelters = async (shelterIds) => {
   return shelterIds.map(id => shelters.find(shelter => shelter.id == id));
 };
 
-const animalLoader = new DataLoader(batchGetAnimals);
-const shelterLoader = new DataLoader(batchGetShelters);
+// Apollo Context
+const context = ({ req }) => ({
+  loaders: {
+    animal: new DataLoader(batchGetAnimals),
+    shelter: new DataLoader(batchGetShelters),
+  },
+});
 
 // GraphQL schema
 const typeDefs = gql`
@@ -74,12 +79,12 @@ const resolvers = {
     pets: () => Pet.all(),
   },
   Pet: {
-    animal: (parent) => animalLoader.load(parent.animalId),
-    shelter: (parent) => shelterLoader.load(parent.shelterId),
+    animal: (parent, _, context) => context.loaders.animal.load(parent.animalId),
+    shelter: (parent, _, context) => context.loaders.shelter.load(parent.shelterId),
   },
 };
 
-const server = new ApolloServer({ typeDefs, resolvers });
+const server = new ApolloServer({ typeDefs, resolvers, context });
 
 server.listen().then(({ url }) => {
   console.log(`🐕🐈 server ready at ${url}`);
