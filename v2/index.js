@@ -6,11 +6,21 @@ const db = require('../db');
 const Animal = {
   all: async () => await db.all(`select * from Animals;`),
   get: async (id) => await db.get(`select * from Animals where id in (?);`, id),
+  many: async (ids) => {
+    const mask = db.paramMask(ids.length);
+    const sql = `select * from Animals where id in (${mask});`;
+    return await db.all(sql, [ids]);
+  },
 };
 
 const Shelter = {
   all: async () => await db.all(`select * from Shelters;`),
   get: async (id) => await db.get(`select * from Shelters where id in (?);`, id),
+  many: async (ids) => {
+    const mask = db.paramMask(ids.length);
+    const sql = `select * from Shelters where id in (${mask});`;
+    return await db.all(sql, [ids]);
+  },
 };
 
 const Pet = {
