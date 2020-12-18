@@ -7,5 +7,11 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Lee Costello",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "apollo-server": "^2.19.0",
+    "dataloader": "^2.0.0",
+    "graphql": "^15.4.0",
+    "sqlite3": "^5.0.0"
+  }
 }
