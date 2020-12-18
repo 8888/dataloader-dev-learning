@@ -27,6 +27,31 @@ const Pet = {
 };
 
 // Dataloaders
+
+// Batch functions are the logic that will handle retrieving multiple rows from
+// the db. They should be able to receive an array of any number of keys, and
+// query for those records, returning the results.
+//
+// A DataLoader batch function must uphold two constraints
+// 1) The returned array of values must be the same length as the provided array of keys
+// 2) Each index in the returned array of values must correspond to the same index in the keys
+//
+// Because of this, we need to map to explicitly return undefined or null for certain values
+// example
+// input = [8, 2, 9]
+// data from the DB = [
+//    { id: 9, name: 'Nora' },
+//    { id: 8, name: 'Finn' }
+// ]
+// Key 2 doesn't exist in the DB, so nothing was returned
+// Now the returned array is not the same length
+// It is also in a different order because that may not always be guranteed by your backend service
+// We have to reorder the array and insert a value for key 2
+// return [
+//    { id: 8, name: 'Finn' },
+//    null,
+//    { id: 9, name: 'Nora' },
+// ]
 const batchGetAnimals = async (animalIds) => {
   const animals = await Animal.many(animalIds);
   return animalIds.map(id => animals.find(animal => animal.id == id));
