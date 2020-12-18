@@ -11,7 +11,7 @@ const db = new sqlite3.Database(dbPath, err => {
   }
 });
 
-const queryDb = (sql, params = []) => {
+const all = (sql, params = []) => {
   return new Promise((resolve, reject) => {
     db.all(sql, params, (err, rows) => {
       console.log(`${sql} ${params}`);
@@ -24,4 +24,21 @@ const queryDb = (sql, params = []) => {
   });
 };
 
-module.exports = { queryDb };
+const get = (sql, params = []) => {
+  return new Promise((resolve, reject) => {
+    db.get(sql, params, (err, row) => {
+      console.log(`${sql} ${params}`);
+      if (err) {
+        reject(err);
+      } else {
+        resolve(row);
+      }
+    });
+  });
+};
+
+const paramMask = (quantity) => {
+  return quantity ? `${'?, '.repeat(quantity - 1)}?` : '';
+};
+
+module.exports = { all, get, paramMask };
