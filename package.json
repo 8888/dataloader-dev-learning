@@ -4,6 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "db-dump-schema": "sqlite3 ./db/sqlite.db .schema > ./db/schema.sql",
+    "db-reset": "rm ./db/sqlite.db && npm run db-restore && npm run db-seed",
+    "db-restore": "sqlite3 ./db/sqlite.db < ./db/schema.sql",
+    "db-seed": "node ./db/seed.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Lee Costello",
